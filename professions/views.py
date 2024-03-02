@@ -22,10 +22,10 @@ class MapViewSet(viewsets.ModelViewSet):
     queryset = Map.objects.all()
     serializer_class = MapSerializer
 
-class CardViewSet(viewsets.ModelViewSet):
+class CardProfViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
 
-class SpecialityViewSet(viewsets.ModelViewSet):
+class SpecialityProfViewSet(viewsets.ModelViewSet):
     queryset = Speciality.objects.all()
     serializer_class = SpecialitySerializer
