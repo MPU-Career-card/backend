@@ -18,12 +18,23 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from speciality.views import SpecialityViewSet, ContentViewSet, CardViewSet
+from professions.views import ProfessionsViewSet, PromoViewSet, TaskViewSet, MapPointerViewSet, MapViewSet, CardProfViewSet, SpecialityProfViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'specialities', SpecialityViewSet)
 router.register(r'contents', ContentViewSet)
 router.register(r'cards', CardViewSet)
+
+router.register(r'professions', ProfessionsViewSet)
+router.register(r'promo', PromoViewSet)
+router.register(r'task', TaskViewSet)
+router.register(r'mapPointer', MapPointerViewSet)
+router.register(r'map', MapViewSet)
+router.register(r'card', CardProfViewSet)
+router.register(r'speciality', SpecialityProfViewSet)
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
