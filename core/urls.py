@@ -23,16 +23,16 @@ from professions.views import ProfessionsViewSet, PromoViewSet, TaskViewSet, Map
 
 router = routers.DefaultRouter()
 router.register(r'specialities', SpecialityViewSet)
-router.register(r'contents', ContentViewSet)
-router.register(r'cards', CardViewSet)
+# router.register(r'contents', ContentViewSet)
+# router.register(r'cards', CardViewSet)
 
 router.register(r'professions', ProfessionsViewSet)
-router.register(r'promo', PromoViewSet)
-router.register(r'task', TaskViewSet)
-router.register(r'mapPointer', MapPointerViewSet)
-router.register(r'map', MapViewSet)
-router.register(r'card', CardProfViewSet)
-router.register(r'speciality', SpecialityProfViewSet)
+# router.register(r'promo', PromoViewSet)
+# router.register(r'task', TaskViewSet)
+# router.register(r'mapPointer', MapPointerViewSet)
+# router.register(r'map', MapViewSet)
+# router.register(r'card', CardProfViewSet)
+#router.register(r'speciality', SpecialityProfViewSet)
 
 
 
