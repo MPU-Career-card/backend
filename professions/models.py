@@ -76,7 +76,7 @@ class Speciality(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
     academic_degree = models.CharField(max_length=255, verbose_name='Академическая степень')
     name = models.CharField(max_length=255, verbose_name='Название специальности')
-    faculty = models.CharField(max_length=255, verbose_name='Факультет')
+    tags = models.JSONField(null=True, verbose_name='Факультет')
     budget_places_count = models.IntegerField(verbose_name='Бюджетные места')
     year_budget_places_count = models.IntegerField(null=True, verbose_name='Год бюджетных мест')
     passing_score = models.IntegerField(verbose_name='Количество мест')
