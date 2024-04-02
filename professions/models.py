@@ -76,14 +76,8 @@ class Speciality(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
     academic_degree = models.CharField(max_length=255, verbose_name='Академическая степень')
     name = models.CharField(max_length=255, verbose_name='Название специальности')
-    tags = models.CharField(max_length=255, verbose_name='Название Факультета')
-    budget_places_count = models.IntegerField(verbose_name='Бюджетные места')
-    year_budget_places_count = models.IntegerField(null=True, verbose_name='Год бюджетных мест')
-    passing_score = models.IntegerField(verbose_name='Количество мест')
-    year_passing_score = models.IntegerField(null=True, verbose_name='Год количества мест')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена обучения')
-    year_price = models.IntegerField(null=True, verbose_name='Год цены обучения')
-    period = models.IntegerField(verbose_name='Период обучения')
+    faculty = models.CharField(null=True, max_length=255, verbose_name='Факультет')
+    links_speciality = models.URLField(null=True, verbose_name='Ссылка')
 
     def __str__(self):
         return self.name
