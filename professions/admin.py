@@ -8,11 +8,6 @@ COMPONENT_SEPARATOR = '|'
 
 class ProfessionsAdminResource(resources.ModelResource):
     title = fields.Field(column_name="Название профессии", attribute="title")
-    tags = fields.Field(
-        column_name='Тэги',
-        attribute='tag',
-        widget=widgets.ForeignKeyWidget(Tag, 'profession')
-    )
     description = fields.Field(column_name="Описание профессии", attribute="description")
     tasks = fields.Field(
         column_name='Задачи',
@@ -24,13 +19,13 @@ class ProfessionsAdminResource(resources.ModelResource):
         model = Professions
         skip_unchanged = True
         report_skipped = False
-        fields = ('title', 'tags', 'description', 'tasks')
-    
+        fields = ('id', 'title', 'tags', 'description', 'tasks')
+        
     def after_import_row(self, row, row_result, row_number=None, **kwargs):
         profession_title = row.get('Название профессии', '').strip()
         profession_instance = Professions.objects.get(title=profession_title)
 
-        # tags
+        # tags - не получается добавить как ForeignKeyWidget, но так работает; возможно стоит убрать и tasks
         tags_text = row.get('Тэги', '').strip()
         tags_list = tags_text.split(BLOCK_SEPARATOR)
         tags_instances = []
@@ -48,7 +43,6 @@ class ProfessionsAdminResource(resources.ModelResource):
             task_instance, _ = Task.objects.get_or_create(title=task_title.strip(), text=task_text.strip(), profession=profession_instance)
             tasks_instances.append(task_instance)
         row['tasks'] = tasks_instances
-        
 
 class ProfessionsAdmin(ImportExportMixin, admin.ModelAdmin):
     verbose_name = 'Профессия'
