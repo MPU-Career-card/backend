@@ -1,43 +1,54 @@
 from django.contrib import admin
-from .models import Professions, Promo, Task, Map, MapPointer, Card, Speciality
+from .models import Professions, Tag, Promo, Task, Map, MapPointer, Card, Speciality
 from import_export.admin import ImportExportMixin
-from import_export import fields, resources
-from import_export.widgets import ManyToManyWidget, ForeignKeyWidget
-from django.db import transaction
-from import_export.instance_loaders import ModelInstanceLoader
+from import_export import fields, resources, widgets
 
-
+BLOCK_SEPARATOR = '$'
+COMPONENT_SEPARATOR = '|'
 
 class ProfessionsAdminResource(resources.ModelResource):
-    tasks = fields.Field(
-        column_name="Основные задачи",
-        attribute="tasks",
-        widget=ManyToManyWidget(Task, separator='\n\n')
-    )
-    id = fields.Field(column_name="ID", attribute="id", readonly=True)
     title = fields.Field(column_name="Название профессии", attribute="title")
+    tags = fields.Field(
+        column_name='Тэги',
+        attribute='tag',
+        widget=widgets.ForeignKeyWidget(Tag, 'profession')
+    )
     description = fields.Field(column_name="Описание профессии", attribute="description")
-    tasks = fields.Field(column_name="Основные задачи", attribute="tasks")
+    tasks = fields.Field(
+        column_name='Задачи',
+        attribute='task',
+        widget=widgets.ForeignKeyWidget(Task, 'profession')
+    )
 
     class Meta:
         model = Professions
-        fields = ('id', 'title', 'description', 'tasks')
+        skip_unchanged = True
+        report_skipped = False
+        fields = ('title', 'tags', 'description', 'tasks')
     
-    @transaction.atomic
-    def before_import_row(self, row, **kwargs):
-        instance_loader = kwargs.get('instance_loader')
-        profession_instance = instance_loader.get_instance()
+    def after_import_row(self, row, row_result, row_number=None, **kwargs):
+        profession_title = row.get('Название профессии', '').strip()
+        profession_instance = Professions.objects.get(title=profession_title)
 
+        # tags
+        tags_text = row.get('Тэги', '').strip()
+        tags_list = tags_text.split(BLOCK_SEPARATOR)
+        tags_instances = []
+        for tag_name in tags_list:
+            task_instance, _ = Tag.objects.get_or_create(name=tag_name.strip(), profession=profession_instance)
+            tags_instances.append(task_instance)
+        row['tags'] = tags_instances
+
+        # tasks
         tasks_text = row.get('Основные задачи', '').strip()
-        tasks_list = tasks_text.split('\n\n\n')
+        tasks_list = tasks_text.split(BLOCK_SEPARATOR)
         tasks_instances = []
-
         for task_text in tasks_list:
-            task_title, task_text = task_text.split('\n\n', 1) 
-            task_instance = Task(title=task_title.strip(), text=task_text.strip(), profession=profession_instance)
+            task_title, task_text = task_text.split(COMPONENT_SEPARATOR, 1)
+            task_instance, _ = Task.objects.get_or_create(title=task_title.strip(), text=task_text.strip(), profession=profession_instance)
             tasks_instances.append(task_instance)
-
         row['tasks'] = tasks_instances
+        
 
 class ProfessionsAdmin(ImportExportMixin, admin.ModelAdmin):
     verbose_name = 'Профессия'
@@ -45,6 +56,7 @@ class ProfessionsAdmin(ImportExportMixin, admin.ModelAdmin):
     resource_class = ProfessionsAdminResource
 
 admin.site.register(Professions, ProfessionsAdmin)
+admin.site.register(Tag, ProfessionsAdmin)
 admin.site.register(Promo)
 admin.site.register(Task)
 admin.site.register(Map)

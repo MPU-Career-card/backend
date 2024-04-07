@@ -11,6 +11,10 @@ class Professions(models.Model):
         verbose_name = 'Профессия'
         verbose_name_plural = 'Профессии'
 
+class Tag(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    name = models.TextField(verbose_name='Имя тэга')
+
 class Promo(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
     image = models.ImageField(upload_to='promo_images/', verbose_name='Фото промо')
