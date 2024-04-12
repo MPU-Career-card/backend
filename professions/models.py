@@ -39,22 +39,12 @@ class Task(models.Model):
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
 
-class Map(models.Model):
-    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
-
-    def __str__(self):
-        return f"Карта для {self.profession}"
-
-    class Meta:
-        verbose_name = 'Карта'
-        verbose_name_plural = 'Карты'
 
 class MapPointer(models.Model):
-    map = models.ForeignKey(Map, on_delete=models.CASCADE, related_name='pointers', verbose_name='Карта')
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
     title = models.CharField(max_length=255, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
-    price_min = models.CharField(max_length=255, verbose_name='Минималная цена')
-    price_max = models.CharField(max_length=255, verbose_name='Максимальная цена')
+    salary = models.CharField(max_length=255, verbose_name='Зарплата')
 
     def __str__(self):
         return self.title
@@ -63,6 +53,88 @@ class MapPointer(models.Model):
         verbose_name = 'Метка на карте'
         verbose_name_plural = 'Метки на карте'
 
+
+class Skill(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    name = models.CharField(max_length=255, verbose_name='Название навыка')
+    description = models.TextField(verbose_name='Описание навыка')
+    svg = models.TextField(verbose_name='SVG иконка')
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Навык'
+        verbose_name_plural = 'Навыки'
+
+class Bakalavr(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    faculty_name = models.CharField(max_length=255, verbose_name='Название факультета')
+    speciality_name = models.CharField(max_length=255, verbose_name='Название специальности')
+    link = models.URLField(verbose_name='Ссылка на специальность')
+
+    def __str__(self): 
+        return self.speciality_name
+    class Meta:
+        verbose_name = 'Бакалавриат'
+        verbose_name_plural = 'Бакалавриат'
+class Magistr(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    faculty_name = models.CharField(max_length=255, verbose_name='Название факультета')
+    speciality_name = models.CharField(max_length=255, verbose_name='Название специальности')
+    link = models.URLField(verbose_name='Ссылка на специальность')
+
+    def __str__(self): 
+        return self.speciality_name
+    class Meta:
+        verbose_name = 'Магистратура'
+        verbose_name_plural = 'Магистратура'
+
+class DPO(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    faculty_name = models.CharField(max_length=255, verbose_name='Название факультета')
+    speciality_name = models.CharField(max_length=255, verbose_name='Название специальности')
+    link = models.URLField(verbose_name='Ссылка на специальность')
+
+    def __str__(self): 
+        return self.speciality_name
+    class Meta:
+        verbose_name = 'ДПО'
+        verbose_name_plural = 'ДПО'
+
+
+class HHVacancy(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    link = models.CharField(max_length=255,verbose_name='Ссылка на вакансию')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Вакансия HH'
+        verbose_name_plural = 'Вакансии HH'
+class Partners(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    name = models.CharField(max_length=255, verbose_name='Название партнера')
+    link = models.URLField(verbose_name='Ссылка на партнера')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Партнер'
+        verbose_name_plural = 'Партнеры'
+    
+class UsefulLink(models.Model):
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    name = models.CharField(max_length=255, verbose_name='Название ссылки')
+    link = models.URLField(verbose_name='Ссылка')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Полезная ссылка'
+        verbose_name_plural = 'Полезные ссылки'
 class Card(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
     title = models.CharField(max_length=255, verbose_name='Название карточки')

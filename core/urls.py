@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from speciality.views import SpecialityViewSet, ContentViewSet, CardViewSet
-from professions.views import ProfessionsViewSet, PromoViewSet, TaskViewSet, MapPointerViewSet, MapViewSet, CardProfViewSet, SpecialityProfViewSet
+from professions.views import ProfessionsViewSet, PromoViewSet, TaskViewSet, MapPointerViewSet, CardProfViewSet, SpecialityProfViewSet
 
 
 router = routers.DefaultRouter()

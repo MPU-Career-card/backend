@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Professions, Promo, Task, Map, MapPointer, Card, Speciality
+from .models import Professions, Promo, Task, MapPointer, Card, Speciality
 
 
 class PromoSerializer(serializers.ModelSerializer):
@@ -17,13 +17,6 @@ class MapPointerSerializer(serializers.ModelSerializer):
         model = MapPointer
         fields = '__all__'
 
-class MapSerializer(serializers.ModelSerializer):
-    pointers = MapPointerSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Map
-        fields = '__all__'
-
 class CardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
@@ -38,7 +31,6 @@ class ProfessionsSerializer(serializers.ModelSerializer):
     speciality = SpecialitySerializer(many=True, read_only=True)
     promos = PromoSerializer(many=True, read_only=True)
     tasks = TaskSerializer(many=True, read_only=True)
-    maps = MapSerializer(many=True, read_only=True)
     cards = CardSerializer(many=True, read_only=True)
 
     class Meta:

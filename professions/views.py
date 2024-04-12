@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Professions, Promo, Task, Map, MapPointer, Card, Speciality
-from .serializers import ProfessionsSerializer, PromoSerializer, TaskSerializer, MapSerializer, MapPointerSerializer, CardSerializer, SpecialitySerializer
+from .models import Professions, Promo, Task, MapPointer, Card, Speciality
+from .serializers import ProfessionsSerializer, PromoSerializer, TaskSerializer, MapPointerSerializer, CardSerializer, SpecialitySerializer
 
 class ProfessionsViewSet(viewsets.ModelViewSet):
     queryset = Professions.objects.all()
@@ -17,10 +17,6 @@ class TaskViewSet(viewsets.ModelViewSet):
 class MapPointerViewSet(viewsets.ModelViewSet):
     queryset = MapPointer.objects.all()
     serializer_class = MapPointerSerializer
-
-class MapViewSet(viewsets.ModelViewSet):
-    queryset = Map.objects.all()
-    serializer_class = MapSerializer
 
 class CardProfViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
