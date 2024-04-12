@@ -9,10 +9,10 @@ class Professions(models.Model):
 
     class Meta:
         verbose_name = 'Профессия'
-        verbose_name_plural = 'Профессии'
+        verbose_name_plural = 'Название профессии'
 
 class Promo(models.Model):
-    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
+    profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Название профессии')
     image = models.ImageField(upload_to='promo_images/', verbose_name='Фото промо')
     description = models.TextField(verbose_name='Описание профессии')
 
@@ -20,8 +20,8 @@ class Promo(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Промо'
-        verbose_name_plural = 'Промо'
+        verbose_name = 'Описание професии'
+        verbose_name_plural = 'Описание професии'
 
 class Task(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
@@ -32,8 +32,8 @@ class Task(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Задача'
-        verbose_name_plural = 'Задачи'
+        verbose_name = 'Основная задача'
+        verbose_name_plural = 'Основные задачи'
 
 class Map(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
@@ -42,8 +42,8 @@ class Map(models.Model):
         return f"Карта для {self.profession}"
 
     class Meta:
-        verbose_name = 'Карта'
-        verbose_name_plural = 'Карты'
+        verbose_name = 'Карьерный путь'
+        verbose_name_plural = 'Карьерные пути'
 
 class MapPointer(models.Model):
     map = models.ForeignKey(Map, on_delete=models.CASCADE, related_name='pointers', verbose_name='Карта')
@@ -69,21 +69,15 @@ class Card(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Карточка'
-        verbose_name_plural = 'Карточки'
+        verbose_name = 'Необходимый навык'
+        verbose_name_plural = 'Необходимые навыки'
 
 class Speciality(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
     academic_degree = models.CharField(max_length=255, verbose_name='Академическая степень')
     name = models.CharField(max_length=255, verbose_name='Название специальности')
-    faculty = models.CharField(max_length=255, verbose_name='Факультет')
-    budget_places_count = models.IntegerField(verbose_name='Бюджетные места')
-    year_budget_places_count = models.IntegerField(null=True, verbose_name='Год бюджетных мест')
-    passing_score = models.IntegerField(verbose_name='Количество мест')
-    year_passing_score = models.IntegerField(null=True, verbose_name='Год количества мест')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена обучения')
-    year_price = models.IntegerField(null=True, verbose_name='Год цены обучения')
-    period = models.IntegerField(verbose_name='Период обучения')
+    faculty = models.CharField(null=True, max_length=255, verbose_name='Факультет')
+    links_speciality = models.URLField(null=True, verbose_name='Ссылка')
 
     def __str__(self):
         return self.name
