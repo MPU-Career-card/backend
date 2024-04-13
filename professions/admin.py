@@ -4,9 +4,6 @@ from .models import Professions, Tag, Promo, Task, MapPointer, Card, Speciality,
 from import_export.admin import ImportExportMixin
 from import_export import fields, resources, widgets
 
-
-
-
 BLOCK_SEPARATOR = '$'
 COMPONENT_SEPARATOR = '|'
 
@@ -91,6 +88,7 @@ class ProfessionsAdminResource(resources.ModelResource):
             row['magistr'] = magistr_instances
         else:
             row['magistr'] = None
+
         #DPO
         if row.get('ДПО',' ') != None:
             dpo_text = row.get('ДПО',' ').strip()
@@ -103,9 +101,11 @@ class ProfessionsAdminResource(resources.ModelResource):
             row['dpo'] = dpo_instances
         else:
             row['dpo'] = None
+
         #HHVacancy
         hhvacancy_text = row.get('hh',' ').strip()
         row['hh'] = hhvacancy_text
+
         #partners
         partners_text = row.get('Партнеры',' ').strip()
         partners_list = partners_text.split(BLOCK_SEPARATOR)
@@ -115,6 +115,7 @@ class ProfessionsAdminResource(resources.ModelResource):
             partners_instance, _ = Partners.objects.get_or_create(name=partners_name.strip(), link=partners_link, profession=profession_instance)
             partners_instances.append(partners_instance)
         row['partners'] = partners_instances
+
         #UsefulLink
         useful_text = row.get('Полезные ссылки',' ').strip()
         useful_list = useful_text.split(BLOCK_SEPARATOR)
@@ -124,6 +125,8 @@ class ProfessionsAdminResource(resources.ModelResource):
             useful_instance, _ = UsefulLink.objects.get_or_create(name=useful_name.strip(), link=useful_link, profession=profession_instance)
             useful_instances.append(useful_instance)
         row['useful'] = useful_instances
+
+
 class ProfessionsAdmin(ImportExportMixin, admin.ModelAdmin):
     verbose_name = 'Профессия'
     verbose_name_plural = 'Профессия'
