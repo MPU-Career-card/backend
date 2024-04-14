@@ -2,42 +2,28 @@ from django.db import models
 
 
 class Speciality(models.Model):
-    tab_id = models.CharField(max_length=10)
-    tab_label = models.CharField(max_length=255)
+    tiker = models.CharField(max_length=10, verbose_name='Тикер факультета')
+    color = models.CharField(max_length=6, verbose_name='Цвет тикера (HEX)')
+    code = models.CharField(max_length=255, verbose_name='Код направления')
+    name = models.TextField(verbose_name='Название направления')
 
     def __str__(self):
-        return self.tab_id
+        return self.name
 
     class Meta:
         verbose_name = 'Специальность'
         verbose_name_plural = 'Специальности'
-
-
-class Content(models.Model):
-    speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE,
-                                   related_name='content')
-    tags = models.JSONField()
-    text = models.TextField()
-
-    def __str__(self):
-        return self.speciality
-    
-    class Meta:
-        verbose_name = 'Контент'
-        verbose_name_plural = 'Контент'
     
 
-
-class Card(models.Model):
-    content = models.ForeignKey(Content, on_delete=models.CASCADE,
-                                related_name='cards')
-    title = models.CharField(max_length=255)
-    card_text = models.TextField()
-    image = models.ImageField(upload_to='images/card_images/')
+class Profession(models.Model):
+    speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, verbose_name='Специальность')
+    name = models.TextField(verbose_name='Название')
+    description = models.TextField(verbose_name='Описание')
+    link = models.URLField(verbose_name='Ссылка')
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta:
-        verbose_name = 'Карточка'
-        verbose_name_plural = 'Карточки'
+        verbose_name = 'Профессия'
+        verbose_name_plural = 'Профессии'

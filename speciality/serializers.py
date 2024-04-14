@@ -1,21 +1,16 @@
 from rest_framework import serializers
-from .models import Speciality, Content, Card
+from .models import Speciality, Profession
+
+
+class ProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields = ('id', 'name', 'description', 'link')
+
 
 class SpecialitySerializer(serializers.ModelSerializer):
+    professions = ProfessionSerializer(many=True, read_only=True, source='profession_set')
+
     class Meta:
         model = Speciality
-        fields = ('id', 'tab_id', 'tab_label')
-
-class ContentSerializer(serializers.ModelSerializer):
-    speciality = SpecialitySerializer()
-
-    class Meta:
-        model = Content
-        fields = ('id', 'speciality', 'tags', 'text')
-
-class CardSerializer(serializers.ModelSerializer):
-    content = ContentSerializer()
-
-    class Meta:
-        model = Card
-        fields = ('id', 'content', 'title', 'card_text', 'image')
+        fields = ('id', 'tiker', 'color', 'code', 'name', 'professions')

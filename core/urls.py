@@ -22,8 +22,8 @@ from professions.views import ProfessionsViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'specialities', SpecialityViewSet)
 router.register(r'professions', ProfessionsViewSet)
+router.register(r'specialities', SpecialityViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

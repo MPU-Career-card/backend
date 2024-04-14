@@ -10,13 +10,15 @@ COMPONENT_SEPARATOR = '|'
 class ProfessionsAdminResource(resources.ModelResource):
     title = fields.Field(column_name="Название профессии", attribute="title")
     description = fields.Field(column_name="Описание профессии", attribute="description")
+    image_link = fields.Field(column_name="Главное изображение", attribute="image_link")
 
     class Meta:
         model = Professions
         skip_unchanged = True
         report_skipped = False
-        fields = ('id', 'title')
-        
+        fields = ('title')
+        import_id_fields = ('title',)
+    
     def after_import_row(self, row, row_result, row_number=None, **kwargs):
         profession_title = row.get('Название профессии', '').strip()
         profession_instance = Professions.objects.get(title=profession_title)
@@ -74,7 +76,7 @@ class ProfessionsAdminResource(resources.ModelResource):
         bachelor_list = bachelor_text.split(BLOCK_SEPARATOR)
         bachelor_instances = []
         for bachelor_text in bachelor_list:
-            bachelor_faculty_name, bachelor_speciality_name,bachelor_link = bachelor_text.split(COMPONENT_SEPARATOR, 2)
+            bachelor_faculty_name, bachelor_speciality_name, bachelor_link = bachelor_text.split(COMPONENT_SEPARATOR, 2)
             bachelor_instance, _ = Bachelor.objects.get_or_create(faculty_name=bachelor_faculty_name.strip(),
                                                                   speciality_name=bachelor_speciality_name.strip(),
                                                                   link=bachelor_link,
