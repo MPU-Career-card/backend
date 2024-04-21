@@ -3,6 +3,7 @@ from django.db import models
 
 class Professions(models.Model):
     title = models.CharField(max_length=255)
+    faculty = models.TextField(verbose_name='Факультет')
     image_link = models.URLField(verbose_name='Ссылка на главное изображение')
     description = models.TextField(verbose_name='Описание профессии')
 

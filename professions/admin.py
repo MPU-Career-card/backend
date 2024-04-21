@@ -9,6 +9,7 @@ COMPONENT_SEPARATOR = '|'
 
 class ProfessionsAdminResource(resources.ModelResource):
     title = fields.Field(column_name="Название профессии", attribute="title")
+    faculty = fields.Field(column_name="Факультет", attribute="faculty")
     description = fields.Field(column_name="Описание профессии", attribute="description")
     image_link = fields.Field(column_name="Главное изображение", attribute="image_link")
 
@@ -20,6 +21,7 @@ class ProfessionsAdminResource(resources.ModelResource):
         import_id_fields = ('title',)
     
     def after_import_row(self, row, row_result, row_number=None, **kwargs):
+        print(row)
         profession_title = row.get('Название профессии', '').strip()
         profession_instance = Professions.objects.get(title=profession_title)
 
