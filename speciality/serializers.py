@@ -5,7 +5,7 @@ from .models import Speciality, Profession
 class ProfessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profession
-        fields = ('id', 'name', 'description', 'link')
+        fields = ('id', 'name', 'description')
 
 
 class SpecialitySerializer(serializers.ModelSerializer):

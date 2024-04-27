@@ -27,10 +27,9 @@ class SpecialityAdminResource(resources.ModelResource):
         professions_list = professions_text.split(BLOCK_SEPARATOR)
         professions_instances = []
         for profession_text in professions_list:
-            profession_name, profession_description, profession_link = profession_text.split(COMPONENT_SEPARATOR, 2)
+            profession_name, profession_description = profession_text.split(COMPONENT_SEPARATOR, 1)
             profession_instance, _ = Profession.objects.get_or_create(name=profession_name.strip(),
                                                                       description=profession_description,
-                                                                      link=profession_link,
                                                                       speciality=speciality_instance)
             professions_instances.append(profession_instance)
         row['professions'] = professions_instances

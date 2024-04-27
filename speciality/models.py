@@ -19,7 +19,6 @@ class Profession(models.Model):
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, verbose_name='Специальность')
     name = models.TextField(verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
-    link = models.URLField(verbose_name='Ссылка')
 
     def __str__(self):
         return self.name

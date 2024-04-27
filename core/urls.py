@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from professions import views
 from rest_framework import routers
 from speciality.views import SpecialityViewSet
 from professions.views import ProfessionsViewSet
@@ -26,6 +27,8 @@ router.register(r'professions', ProfessionsViewSet)
 router.register(r'specialities', SpecialityViewSet)
 
 urlpatterns = [
+    path('professions/<str:title>/', views.ProfessionsViewSet.as_view(
+        {'get': 'retrieve'}), name='get_profession_by_title'),
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
 ]
