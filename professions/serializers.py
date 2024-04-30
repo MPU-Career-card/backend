@@ -63,18 +63,19 @@ class UsefulLinkSerializer(serializers.ModelSerializer):
 
 
 class ProfessionsSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, read_only=True)
-    tasks = TaskSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True, source='tag_set')
+    tasks = TaskSerializer(many=True, read_only=True, source='task_set')
     map_pointers = MapPointerSerializer(many=True, read_only=True, source='mappointer_set')
     skills = SkillSerializer(many=True, read_only=True, source='skill_set')
     bachelors = BachelorSerializer(many=True, read_only=True, source='bachelor_set')
     masters = MasterSerializer(many=True, read_only=True, source='master_set')
-    further_ecuations = FurtherEducationSerializer(many=True, read_only=True, source='further_education_set')
+    further_educations = FurtherEducationSerializer(many=True, read_only=True, source='furthereducation_set')
     hh_vacancies = HHVacancySerializer(many=True, read_only=True, source='hhvacancy_set')  
     partners = PartnersSerializer(many=True, read_only=True, source='partners_set')
     useful_links = UsefulLinkSerializer(many=True, read_only=True, source='usefullink_set')
 
     class Meta:
         model = Professions
-        fields = ('id', 'title', 'tags', 'tasks', 'map_pointers', 'skills', 'bachelors',
-                  'masters', 'further_ecuations', 'hh_vacancies', 'partners', 'useful_links')
+        fields = ('id', 'title', 'image_link', 'faculty', 'description', 'tags',
+                  'tasks', 'map_pointers','skills', 'bachelors', 'masters',
+                  'further_educations', 'hh_vacancies', 'partners', 'useful_links')

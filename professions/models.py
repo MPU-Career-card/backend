@@ -58,7 +58,7 @@ class Skill(models.Model):
     profession = models.ForeignKey(Professions, on_delete=models.CASCADE, verbose_name='Профессия')
     name = models.CharField(max_length=255, verbose_name='Название навыка')
     description = models.TextField(verbose_name='Описание навыка')
-    svg = models.TextField(verbose_name='SVG иконка')
+    image_link = models.TextField(verbose_name='Ссылка на иконку')
 
     def __str__(self):
         return self.name
