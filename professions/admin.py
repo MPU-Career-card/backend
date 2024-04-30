@@ -65,10 +65,10 @@ class ProfessionsAdminResource(resources.ModelResource):
         skills_list = skills_text.split(BLOCK_SEPARATOR)
         skills_instances = []
         for skills_text in skills_list:
-            skills_name, skills_text,svg = skills_text.split(COMPONENT_SEPARATOR, 2)
+            skills_name, skills_text, image_link = skills_text.split(COMPONENT_SEPARATOR, 2)
             skills_instance, _ = Skill.objects.get_or_create(name=skills_name.strip(),
                                                              description=skills_text.strip(),
-                                                             svg=svg.strip(),
+                                                             image_link=image_link.strip(),
                                                              profession=profession_instance)
             skills_instances.append(skills_instance)
         row['skills'] = skills_instances
