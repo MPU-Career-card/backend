@@ -21,9 +21,9 @@ class ProfessionsAdminResource(resources.ModelResource):
         import_id_fields = ('title',)
     
     def after_import_row(self, row, row_result, row_number=None, **kwargs):
-        print(row)
         profession_title = row.get('Название профессии', '').strip()
         profession_instance = Professions.objects.get(title=profession_title)
+        faculty = row.get('Факультет', '').strip()
 
         # Tags
         tags_text = row.get('Тэги', '').strip()
@@ -48,7 +48,7 @@ class ProfessionsAdminResource(resources.ModelResource):
         row['tasks'] = tasks_instances
 
         # Map
-        map_text = row.get('Карьерный путь',' ').strip()
+        map_text = row.get('Карьерный путь', '').strip()
         map_list = map_text.split(BLOCK_SEPARATOR)
         map_instances = []
         for map_text in map_list:
@@ -61,7 +61,7 @@ class ProfessionsAdminResource(resources.ModelResource):
         row['map'] = map_instances
         
         # Skills
-        skills_text = row.get('Необходимые навыки',' ').strip()
+        skills_text = row.get('Необходимые навыки', '').strip()
         skills_list = skills_text.split(BLOCK_SEPARATOR)
         skills_instances = []
         for skills_text in skills_list:
@@ -74,12 +74,12 @@ class ProfessionsAdminResource(resources.ModelResource):
         row['skills'] = skills_instances
 
         # Bachelor
-        bachelor_text = row.get('Бакалавр',' ').strip()
+        bachelor_text = row.get('Бакалавр', '').strip()
         bachelor_list = bachelor_text.split(BLOCK_SEPARATOR)
         bachelor_instances = []
         for bachelor_text in bachelor_list:
-            bachelor_faculty_name, bachelor_speciality_name, bachelor_link = bachelor_text.split(COMPONENT_SEPARATOR, 2)
-            bachelor_instance, _ = Bachelor.objects.get_or_create(faculty_name=bachelor_faculty_name.strip(),
+            bachelor_speciality_name, bachelor_link = bachelor_text.split(COMPONENT_SEPARATOR, 1)
+            bachelor_instance, _ = Bachelor.objects.get_or_create(faculty_name=faculty,
                                                                   speciality_name=bachelor_speciality_name.strip(),
                                                                   link=bachelor_link,
                                                                   profession=profession_instance)
@@ -87,13 +87,13 @@ class ProfessionsAdminResource(resources.ModelResource):
         row['bachelor'] = bachelor_instances
 
         # Master
-        if row.get('Магистратура',' ') != None:
+        if row.get('Магистратура', '') != None:
             master_text = row.get('Магистратура',' ').strip()
             master_list = master_text.split(BLOCK_SEPARATOR)
             master_instances = []
             for master_text in master_list:
-                master_faculty_name, master_speciality_name, master_link = master_text.split(COMPONENT_SEPARATOR, 2)
-                master_instance, _ = Master.objects.get_or_create(faculty_name=master_faculty_name.strip(),
+                master_speciality_name, master_link = master_text.split(COMPONENT_SEPARATOR, 1)
+                master_instance, _ = Master.objects.get_or_create(faculty_name=faculty,
                                                                     speciality_name=master_speciality_name.strip(),
                                                                     link=master_link,
                                                                     profession=profession_instance)
@@ -103,13 +103,13 @@ class ProfessionsAdminResource(resources.ModelResource):
             row['master'] = None
 
         # FurtherEducation
-        if row.get('ДПО',' ') != None:
-            fe_text = row.get('ДПО',' ').strip()
+        if row.get('ДПО', '') != None:
+            fe_text = row.get('ДПО', '').strip()
             fe_list = fe_text.split(BLOCK_SEPARATOR)
             fe_instances = []
             for fe_text in fe_list:
-                fe_faculty_name, fe_speciality_name, fe_link = fe_text.split(COMPONENT_SEPARATOR, 2)
-                fe_instance, _ = FurtherEducation.objects.get_or_create(faculty_name=fe_faculty_name.strip(), 
+                fe_speciality_name, fe_link = fe_text.split(COMPONENT_SEPARATOR, 1)
+                fe_instance, _ = FurtherEducation.objects.get_or_create(faculty_name=faculty, 
                                                                          speciality_name=fe_speciality_name.strip(),
                                                                          link=fe_link,
                                                                          profession=profession_instance)
@@ -119,35 +119,36 @@ class ProfessionsAdminResource(resources.ModelResource):
             row['further_education'] = None
 
         # HHVacancy
-        hhvacancy_text = row.get('hh',' ').strip()
+        hhvacancy_text = row.get('hh', '').strip()
         row['hh'] = hhvacancy_text
 
         # Partners
-        partners_text = row.get('Партнеры',' ').strip()
-        partners_list = partners_text.split(BLOCK_SEPARATOR)
-        partners_instances = []
-        for partners_text in partners_list:
-            partners_name, partners_link, partners_image = partners_text.split(COMPONENT_SEPARATOR, 2)
-            partners_instance, _ = Partners.objects.get_or_create(name=partners_name.strip(),
-                                                                  link=partners_link,
-                                                                  image_link=partners_image,
-                                                                  profession=profession_instance)
-            partners_instances.append(partners_instance)
-        row['partners'] = partners_instances
+        if row.get('Партнеры', '') != None:
+            partners_text = row.get('Партнеры',' ').strip()
+            partners_list = partners_text.split(BLOCK_SEPARATOR)
+            partners_instances = []
+            for partners_text in partners_list:
+                partners_name, partners_link, partners_image = partners_text.split(COMPONENT_SEPARATOR, 2)
+                partners_instance, _ = Partners.objects.get_or_create(name=partners_name.strip(),
+                                                                    link=partners_link,
+                                                                    image_link=partners_image,
+                                                                    profession=profession_instance)
+                partners_instances.append(partners_instance)
+            row['partners'] = partners_instances
 
         # UsefulLink
-        useful_text = row.get('Полезные ссылки',' ').strip()
-        useful_list = useful_text.split(BLOCK_SEPARATOR)
-        useful_instances = []
-        for useful_text in useful_list:
-            print()
-            useful_name, useful_description, useful_link = useful_text.split(COMPONENT_SEPARATOR, 2)
-            useful_instance, _ = UsefulLink.objects.get_or_create(name=useful_name.strip(),
-                                                                  description=useful_description,
-                                                                  link=useful_link,
-                                                                  profession=profession_instance)
-            useful_instances.append(useful_instance)
-        row['useful'] = useful_instances
+        if row.get('Полезные ссылки', '') != None:
+            useful_text = row.get('Полезные ссылки', '').strip()
+            useful_list = useful_text.split(BLOCK_SEPARATOR)
+            useful_instances = []
+            for useful_text in useful_list:
+                useful_name, useful_description, useful_link = useful_text.split(COMPONENT_SEPARATOR, 2)
+                useful_instance, _ = UsefulLink.objects.get_or_create(name=useful_name.strip(),
+                                                                    description=useful_description,
+                                                                    link=useful_link,
+                                                                    profession=profession_instance)
+                useful_instances.append(useful_instance)
+            row['useful'] = useful_instances
 
 
 class ProfessionsAdmin(ImportExportMixin, admin.ModelAdmin):
