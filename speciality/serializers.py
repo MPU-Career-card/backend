@@ -13,4 +13,4 @@ class SpecialitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Speciality
-        fields = ('id', 'tiker', 'color', 'code', 'name', 'professions')
+        fields = ('id', 'faculty', 'color', 'code', 'name', 'professions')

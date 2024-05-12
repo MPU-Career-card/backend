@@ -29,6 +29,9 @@ router.register(r'specialities', SpecialityViewSet)
 urlpatterns = [
     path('professions/<str:title>/', views.ProfessionsViewSet.as_view(
         {'get': 'retrieve'}), name='get_profession_by_title'),
+    path('faculties/', views.FacultiesListView.as_view(), name='get_all_faculties'),
+    path('faculties/<str:faculty>/', views.FacultiesProfessionsView.as_view(),
+         name='get_professions_by_faculty'),
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
 ]

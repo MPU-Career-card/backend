@@ -6,7 +6,7 @@ from professions.admin import BLOCK_SEPARATOR, COMPONENT_SEPARATOR
 
 
 class SpecialityAdminResource(resources.ModelResource):
-    tiker = fields.Field(column_name='Тикер', attribute='tiker')
+    faculty = fields.Field(column_name='Факультет', attribute='faculty')
     color = fields.Field(column_name='Цвет тикера', attribute='color')
     code = fields.Field(column_name='Код направления', attribute='code')
     name = fields.Field(column_name='Название направления', attribute='name')

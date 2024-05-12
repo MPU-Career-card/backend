@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Speciality(models.Model):
-    tiker = models.CharField(max_length=10, verbose_name='Тикер факультета')
+    faculty = models.TextField(verbose_name='Факультет')
     color = models.CharField(max_length=6, verbose_name='Цвет тикера (HEX)')
     code = models.CharField(max_length=255, verbose_name='Код направления')
     name = models.TextField(verbose_name='Название направления')
