@@ -40,6 +40,9 @@ class ProfessionsAdminResource(resources.ModelResource):
         tasks_list = tasks_text.split(BLOCK_SEPARATOR)
         tasks_instances = []
         for task_text in tasks_list:
+            if len(task_text.split(COMPONENT_SEPARATOR)) != 2:
+                raise Exception("Not 2 in the task: ", task_text)
+
             task_title, task_text = task_text.split(COMPONENT_SEPARATOR, 1)
             task_instance, _ = Task.objects.get_or_create(title=task_title.strip(),
                                                           text=task_text.strip(),
@@ -52,6 +55,9 @@ class ProfessionsAdminResource(resources.ModelResource):
         map_list = map_text.split(BLOCK_SEPARATOR)
         map_instances = []
         for map_text in map_list:
+            if len(map_text.split(COMPONENT_SEPARATOR)) != 3:
+                raise Exception("Not 3 in the map: ", map_text)
+
             map_title, map_text, map_salary = map_text.split(COMPONENT_SEPARATOR, 2)
             map_instance, _ = MapPointer.objects.get_or_create(title=map_title.strip(),
                                                                description=map_text.strip(),
@@ -65,6 +71,9 @@ class ProfessionsAdminResource(resources.ModelResource):
         skills_list = skills_text.split(BLOCK_SEPARATOR)
         skills_instances = []
         for skills_text in skills_list:
+            if len(skills_text.split(COMPONENT_SEPARATOR)) != 3:
+                raise Exception("Not 3 in the map: ", skills_text)
+
             skills_name, skills_text, image_link = skills_text.split(COMPONENT_SEPARATOR, 2)
             skills_instance, _ = Skill.objects.get_or_create(name=skills_name.strip(),
                                                              description=skills_text.strip(),
@@ -78,6 +87,9 @@ class ProfessionsAdminResource(resources.ModelResource):
         bachelor_list = bachelor_text.split(BLOCK_SEPARATOR)
         bachelor_instances = []
         for bachelor_text in bachelor_list:
+            if len(bachelor_text.split(COMPONENT_SEPARATOR)) != 2:
+                raise Exception("Not 2 in the bachelor: ", bachelor_text)
+
             bachelor_speciality_name, bachelor_link = bachelor_text.split(COMPONENT_SEPARATOR, 1)
             bachelor_instance, _ = Bachelor.objects.get_or_create(faculty_name=faculty,
                                                                   speciality_name=bachelor_speciality_name.strip(),
@@ -92,6 +104,9 @@ class ProfessionsAdminResource(resources.ModelResource):
             master_list = master_text.split(BLOCK_SEPARATOR)
             master_instances = []
             for master_text in master_list:
+                if len(master_text.split(COMPONENT_SEPARATOR)) != 2:
+                    raise Exception("Not 2 in the master: ", master_text)
+
                 master_speciality_name, master_link = master_text.split(COMPONENT_SEPARATOR, 1)
                 master_instance, _ = Master.objects.get_or_create(faculty_name=faculty,
                                                                     speciality_name=master_speciality_name.strip(),
@@ -108,6 +123,9 @@ class ProfessionsAdminResource(resources.ModelResource):
             fe_list = fe_text.split(BLOCK_SEPARATOR)
             fe_instances = []
             for fe_text in fe_list:
+                if len(fe_text.split(COMPONENT_SEPARATOR)) != 2:
+                    raise Exception("Not 2 in the fe: ", fe_text)
+
                 fe_speciality_name, fe_link = fe_text.split(COMPONENT_SEPARATOR, 1)
                 fe_instance, _ = FurtherEducation.objects.get_or_create(faculty_name=faculty, 
                                                                          speciality_name=fe_speciality_name.strip(),
@@ -128,6 +146,9 @@ class ProfessionsAdminResource(resources.ModelResource):
             partners_list = partners_text.split(BLOCK_SEPARATOR)
             partners_instances = []
             for partners_text in partners_list:
+                if len(partners_text.split(COMPONENT_SEPARATOR)) != 3:
+                    raise Exception("Not 3 in the fe: ", partners_text)
+
                 partners_name, partners_link, partners_image = partners_text.split(COMPONENT_SEPARATOR, 2)
                 partners_instance, _ = Partners.objects.get_or_create(name=partners_name.strip(),
                                                                     link=partners_link,
@@ -142,6 +163,9 @@ class ProfessionsAdminResource(resources.ModelResource):
             useful_list = useful_text.split(BLOCK_SEPARATOR)
             useful_instances = []
             for useful_text in useful_list:
+                if len(useful_text.split(COMPONENT_SEPARATOR)) != 3:
+                    raise Exception("Not 3 in the useful: ", useful_text)
+
                 useful_name, useful_description, useful_link = useful_text.split(COMPONENT_SEPARATOR, 2)
                 useful_instance, _ = UsefulLink.objects.get_or_create(name=useful_name.strip(),
                                                                     description=useful_description,
