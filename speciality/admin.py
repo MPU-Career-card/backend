@@ -19,7 +19,7 @@ class SpecialityAdminResource(resources.ModelResource):
         import_id_fields = ('code',)
 
     def after_import_row(self, row, row_result, row_number=None, **kwargs):
-        speciality_code = row.get('Код направления', '').strip()
+        speciality_code = row.get('Код направления', '')
         speciality_instance = Speciality.objects.get(code=speciality_code)
 
         # Professions
