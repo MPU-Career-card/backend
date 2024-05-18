@@ -19,7 +19,7 @@ from django.urls import include, path
 from professions import views
 from rest_framework import routers
 from speciality.views import SpecialityViewSet
-from professions.views import ProfessionsViewSet
+from professions.views import ProfessionsViewSet, SearchFacultiesView
 
 
 router = routers.DefaultRouter()
@@ -32,6 +32,7 @@ urlpatterns = [
     path('faculties/', views.FacultiesListView.as_view(), name='get_all_faculties'),
     path('faculties/<str:faculty>/', views.FacultiesProfessionsView.as_view(),
          name='get_professions_by_faculty'),
+    path('search_faculties/<str:search_string>/', SearchFacultiesView.as_view()),
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
 ]
