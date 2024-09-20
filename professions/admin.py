@@ -149,14 +149,14 @@ class ProfessionsAdminResource(resources.ModelResource):
                 if len(partners_text.split(COMPONENT_SEPARATOR)) != 3:
                     raise Exception("Not 3 in the fe: ", partners_text)
 
-                partners_name, partners_link, partners_image = partners_text.split(COMPONENT_SEPARATOR, 2)
+                partners_name, partners_image, partners_link = partners_text.split(COMPONENT_SEPARATOR, 2)
                 partners_instance, _ = Partners.objects.get_or_create(name=partners_name.strip(),
                                                                     link=partners_link,
                                                                     image_link=partners_image,
                                                                     profession=profession_instance)
                 partners_instances.append(partners_instance)
             row['partners'] = partners_instances
-
+  
         # UsefulLink
         if row.get('Полезные ссылки', '') != None:
             useful_text = row.get('Полезные ссылки', '').strip()
