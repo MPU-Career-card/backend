@@ -100,9 +100,10 @@ class ProfessionsAdminResource(resources.ModelResource):
 
         # Master
         if row.get('Магистратура', '') != None:
-            master_text = row.get('Магистратура',' ').strip()
-            master_list = master_text.split(BLOCK_SEPARATOR)
+            master_text = row.get('Магистратура', '').strip()
+            master_list = filter(lambda row: row != '', master_text.split(BLOCK_SEPARATOR))
             master_instances = []
+            print(master_list)
             for master_text in master_list:
                 if len(master_text.split(COMPONENT_SEPARATOR)) != 2:
                     raise Exception("Not 2 in the master: ", master_text)
@@ -120,7 +121,7 @@ class ProfessionsAdminResource(resources.ModelResource):
         # FurtherEducation
         if row.get('ДПО', '') != None:
             fe_text = row.get('ДПО', '').strip()
-            fe_list = fe_text.split(BLOCK_SEPARATOR)
+            fe_list = filter(lambda row: row != '', fe_text.split(BLOCK_SEPARATOR))
             fe_instances = []
             for fe_text in fe_list:
                 if len(fe_text.split(COMPONENT_SEPARATOR)) != 2:
