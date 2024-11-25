@@ -21,7 +21,7 @@ class ProfessionsAdminResource(resources.ModelResource):
         import_id_fields = ('title',)
     
     def after_import_row(self, row, row_result, row_number=None, **kwargs):
-        profession_title = row.get('Название профессии', '')
+        profession_title = row.get('Название профессии', '').strip()
         profession_instance = Professions.objects.get(title=profession_title)
         faculty = row.get('Факультет', '').strip()
 
